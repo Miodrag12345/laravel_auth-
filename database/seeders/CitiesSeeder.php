@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\CitiesModel;
 use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CitiesSeeder extends Seeder
