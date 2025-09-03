@@ -1,4 +1,4 @@
-@foreach($prognoza as $grad => $temperatura)
-    <p>Trenutno je {{$temperatura}} stepena u gradu {{$grad}}</p>
+@foreach($prognoza as $weather)
+    <p>Trenutno je {{$weather->temperature}} stepena u gradu {{$weather->city->name}}</p>
 
  @endforeach
