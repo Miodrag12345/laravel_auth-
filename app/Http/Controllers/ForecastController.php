@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CitiesModel;
+use App\Models\ForecastModel;
+
 class ForecastController extends Controller
 {
-    public function index($city)
+    public function index(CitiesModel $city)
     {
-        $forecast = [
-            "beograd" => [22, 24, 25, 26, 27],
-            "sarajevo" => [20, 24, 22, 25, 21]
-        ];
-
-        $city = strtolower($city);
-        if (!array_key_exists($city, $forecast)) // za kljuc u nizuu da se proveri
-        {
-            die("Ovaj grad ne postoji");
-        }
-        dd($forecast[$city]);
+       $prognoza=ForecastModel::where(['city_id'=>$city->id])->get(); // pronadji mi sve prognoze koje imaju city id
+        return view('forecast',compact('prognoza'));
     }
 }
