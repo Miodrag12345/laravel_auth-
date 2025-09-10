@@ -16,7 +16,7 @@ class ForecastSeeder extends Seeder
     {
         $cities=CitiesModel::all();
         foreach($cities as $city){
-            for($i=0; $i<5; $i++){
+            for($i=0; $i<500; $i++){
                 ForecastModel::create([
                     "city_id"=>$city->id,
                     "temperature"=>rand(15,30),
