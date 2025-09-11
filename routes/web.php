@@ -12,9 +12,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::get("/prognoza",[WeatherController::class, 'index']);
 
 Route::get("/forecast/{city:name}",[\App\Http\Controllers\ForecastController::class, "index"]);
+
+Route::view("/admin/weather", "admin.weather_index");
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
