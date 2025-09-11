@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ForecastModel extends Model
 {
     protected $table = "forecast";
-    protected $fillable = ["city_id", "temperature", "forecast_date","weather_type","probability","role"];
+    protected $fillable = ["city_id", "temperature", "forecast_date","weather_type","probability"];
 
     const WEATHERS= ["rainy","sunny","snowy"];
 
