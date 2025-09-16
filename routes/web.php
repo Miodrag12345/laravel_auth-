@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminForecastController;
 use App\Http\Controllers\AdminWeatherController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeatherController;
@@ -22,7 +23,7 @@ Route::get("/forecast/{city:name}",[\App\Http\Controllers\ForecastController::cl
 Route::view("/admin/weather", "admin.weather_index");
 Route::post("/admin/weather/update", [AdminWeatherController::class, 'update'])->name("weather.update");
 Route::view("admin/forecast", "admin.forecast_index");
-
+Route::post("admin/forecast/create",[AdminForecastController::class, 'create'])->name("forecast.create");
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

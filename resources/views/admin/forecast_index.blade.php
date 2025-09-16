@@ -1,5 +1,5 @@
-<form method="POST" >
-
+<form method="POST" action="{{ route("forecast.create") }}">
+    @csrf
     <input type="text"  name="temperature" placeholder="Unesite temperaturu">
     <select name="weather_type">
         @foreach(\App\Models\ForecastModel::WEATHERS as $weather)
@@ -13,7 +13,7 @@
             <option value="{{$city->id}}">{{$city->name}}</option>
         @endforeach
     </select>
-    <button>Snimi </button>
+    <button type="submit">Snimi </button>
 </form>
 @foreach(\App\Models\CitiesModel::all() as $city)
     <h3>{{$city->name}}</h3>
