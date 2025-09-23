@@ -17,7 +17,7 @@ class ForecastSeeder extends Seeder
         $cities=CitiesModel::all();
         foreach($cities as $city){
             for($i=0; $i<5; $i++){
-                $weatherType= ForecastModel::WEATHERS[rand(0,2)]; // izvadili smo weather type
+                $weatherType= ForecastModel::WEATHERS[rand(0,3)]; // izvadili smo weather type
                 $probability=null; // po defaltu
                 if($weatherType=="rainy" || $weatherType=="snowy"){
                     $probability=rand(1,100);
