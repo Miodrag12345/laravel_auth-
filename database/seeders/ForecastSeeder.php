@@ -19,7 +19,7 @@ class ForecastSeeder extends Seeder
         foreach($cities as $city){
             $lastTemperature=null;
 
-            for($i=0; $i<5; $i++){
+            for($i=0; $i<30; $i++){
                 $weatherType= ForecastModel::WEATHERS[rand(0,3)]; // izvadili smo weather type
                 $probability=null; // po defaltu
                 if($weatherType=="rainy" || $weatherType=="snowy"){
@@ -53,7 +53,7 @@ class ForecastSeeder extends Seeder
                 ForecastModel::create([
                     "city_id"=>$city->id,
                     "temperature"=>$temperature,
-                    "forecast_date"=>Carbon::now()->addDays(rand(1,30)),
+                    "forecast_date"=>Carbon::now()->addDays($i),
                     "weather_type"=>$weatherType,
                     "probability"=>$probability
                 ]);

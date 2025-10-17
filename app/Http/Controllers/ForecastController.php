@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\CitiesModel;
-use App\Models\ForecastModel;
+use Illuminate\Http\Request;
 
 class ForecastController extends Controller
 {
-    public function index(CitiesModel $city)
+    public function search(Request $request)
     {
+        $cityName= $request->get("city");
 
-        return view("forecast",compact('city'));
+        $city = CitiesModel::with("todayForecasts")->firstWhere("name","like","%$cityName%");
+
+        if($city === null){
+           return redirect()->back()->with("error" ,"Nismo pronasli gradove koji ima odgovarajuce kriterijume");
+        }
+        return view("forecast",compact("city"));
     }
 }
