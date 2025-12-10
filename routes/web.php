@@ -6,16 +6,31 @@ use App\Http\Controllers\AdminForecastController;
 use App\Http\Controllers\AdminWeatherController;
 use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserCitiesController;
 use App\Http\Controllers\WeatherController;
 
 use App\Http\Middleware\AdminCheckMiddloeware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
 
 
 
-Route::view("/","welcome");
+//Route::view("/","welcome");
+Route::get("/",function (){
+
+    $userFavourites=[];
+    $user= Auth::user();
+    if($user !== null){
+        $userFavourites=\App\Models\UserCities::where([
+            'city_id'=>$user->id
+        ])->get();
+        dd($userFavourites);
+    }
+
+    return view("welcome",compact('userFavourites'));
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -26,6 +41,9 @@ Route::get('/prognoza/search', [ForecastController::class, 'search'])->name('wea
 Route::get("/prognoza",[WeatherController::class, 'index']);
 
 Route::get("/forecast/{city:name}",[ForecastController::class, "index"]);
+Route::get("/user-cities/favourite/{city}", [UserCitiesController::class, "favourite"])->name("city.favourite");
+Route::get ("/user-cities-unfavourite/{city}" ,[UserCitiesController::class, "unfavourite"])->name("city.unfavourite");
+
 Route::prefix('/admin')->middleware(AdminCheckMiddloeware::class)->group(function (){
     Route::view("/weather", "admin.weather_index");
     Route::post("/admin/weather/update", [AdminWeatherController::class, 'update'])->name("weather.update");

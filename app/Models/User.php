@@ -39,11 +39,13 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
+    protected  $casts=
+
+        [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    public function userFavourites(){
+        return $this->hasMany(UserCities::class, "user_id","id");
     }
 }

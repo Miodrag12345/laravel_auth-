@@ -20,6 +20,7 @@ class CitiesModel extends Model
 
     public function todayForecasts()
     {
+
         return $this->hasOne(ForecastModel::class, 'city_id', 'id')
          ->whereDate("forecast_date" , Carbon::now());
 
