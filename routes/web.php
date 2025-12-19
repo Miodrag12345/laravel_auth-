@@ -24,7 +24,7 @@ Route::get("/",function (){
     $user= Auth::user();
     if($user !== null){
         $userFavourites=\App\Models\UserCities::where([
-            'city_id'=>$user->id
+            'user_id'=>$user->id
         ])->get();
         dd($userFavourites);
     }
