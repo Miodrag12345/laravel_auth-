@@ -12,9 +12,12 @@ class ForecastHelper
     ];
     public static  function getIconByWeatherType($type)
     {
-
-        $icon=self::WEATHER_ICONS[$type]; // zelim da izvucem na osnovu tipa  ikonice promenjive npr iz rainy vratice nam iz array konstante fa-cloud-rainy
-        return $icon;
+        if(in_array($type,self::WEATHER_ICONS))
+        $icon=self::WEATHER_ICONS[$type];
+        {
+            return  self::WEATHER_ICONS[$type];
+        }
+        return "fa-sun";
     }
 
     public static function getColorByTemperature($temperature)

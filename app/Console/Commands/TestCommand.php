@@ -28,7 +28,9 @@ class TestCommand extends Command
      * Execute the console command.
      */
     public function handle()
+
     {
+        die("r");
         $city=$this->argument('city');
 
         $dbCity=CitiesModel::where(['name' => $city])->first(); // stavimo zelimo samo jedan
