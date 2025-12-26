@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\CitiesModel;
 use App\Models\ForecastModel;
+use App\Services\WeatherService;
 use Illuminate\Console\Command;
 
 use Illuminate\Support\Facades\Http;
@@ -39,20 +40,14 @@ class TestCommand extends Command
        }
 
 
-        $response=Http::get(env("WEATHER_API_URL")."v1/forecast.json" , [
-            'key' => env("WEATHER_API_KEY"),
-            'q'   => $city,
-            'aqi' => 'no',
-            'days'=>'1'
-        ]);
+       $weatherService= new WeatherService();
+
+
+        $jsonResponse = $weatherService->getForecast($city);
 
 
 
-        $jsonResponse = $response->json();
-
-
-
-     if(isset($jsonResponse['eror'])){
+        if (isset($jsonResponse['error'])){
          $this->output->error($jsonResponse['eror']['message']);
      }
 
@@ -61,27 +56,22 @@ class TestCommand extends Command
          return;
      }
 
-     $forecastDay=$jsonResponse["forecast"]["forecastday"][0];
+        $forecastDay = $jsonResponse["forecast"]["forecastday"][0];
 
+        $forecastDate = $forecastDay["date"];
+        $temperature  = $forecastDay["day"]["avgtemp_c"];
+        $weatherType  = $forecastDay["day"]["condition"]["text"];
+        $probability  = $forecastDay["day"]["daily_chance_of_rain"];
 
-     $forecastDate=$forecastDay["date"] ;
-     $temperature=$forecastDay["day"]["avgtemp_c"];
-     $weatherType=$forecastDay["condition"]["text"];
-     $probability=$forecastDay["daily_of_chance_of_rain"];
+        $forecast = [
+            "city_id" => $dbCity->id,
+            "temperature" => $temperature,
+            "forecast_date" => $forecastDate,
+            "weather_type" => strtolower($weatherType),
+            "probability" => $probability
+        ];
 
-
-
-
-
-     $forecast= [
-         "city_id"=>$dbCity->id,
-         "temperature"=>$temperature ,
-        "forecast date"=> $forecastDate,
-         "weather type"=>strtolower($weatherType),
-         "probability"=>$probability
-     ];
-
-     ForecastModel::create($forecast);
+        ForecastModel::create($forecast);
      $this->output->comment("Added new forecast");
 
 
