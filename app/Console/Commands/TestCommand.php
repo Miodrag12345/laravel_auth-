@@ -30,7 +30,7 @@ class TestCommand extends Command
     public function handle()
 
     {
-        die("r");
+
         $city=$this->argument('city');
 
         $dbCity=CitiesModel::where(['name' => $city])->first(); // stavimo zelimo samo jedan
@@ -46,7 +46,7 @@ class TestCommand extends Command
             'days'=>'1'
         ]);
 
-        dd($response->json());
+
 
         $jsonResponse = $response->json();
 
@@ -61,11 +61,14 @@ class TestCommand extends Command
          return;
      }
 
-     $forecastDate=$jsonResponse["forecast"]["forecastday"][0]["date"] ;
-     $temperature=$jsonResponse["forecast"]["forecastday"][0]["day"]["avgtemp_c"];
-     $weatherType=$jsonResponse["forecast"]["forecastday"][0]["condition"]["text"];
-     $probability=$jsonResponse["forecast"]["forecastday"][0]["daily_of_chance_of_rain"];
-     dd($forecastDate,$temperature,$weatherType,$probability);
+     $forecastDay=$jsonResponse["forecast"]["forecastday"][0];
+
+
+     $forecastDate=$forecastDay["date"] ;
+     $temperature=$forecastDay["day"]["avgtemp_c"];
+     $weatherType=$forecastDay["condition"]["text"];
+     $probability=$forecastDay["daily_of_chance_of_rain"];
+
 
 
 

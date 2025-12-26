@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+Route::get('/forecast', [ForecastController::class, 'index']);
 
 //Route::view("/","welcome");
 Route::get("/",function (){

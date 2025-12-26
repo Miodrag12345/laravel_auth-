@@ -6,9 +6,27 @@ use App\Models\CitiesModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class ForecastController extends Controller
 {
+    public function index(CitiesModel $city)
+    {
+        $response=Http::get(env("WEATHER_API_URL")."v1/astronomy.json" , [
+            'key' => env("WEATHER_API_KEY"),
+            'q'   => $city->name,
+            'aqi' => 'no',
+
+        ]);
+
+        $jsonResponse = $response->json();
+        $sunrise=$jsonResponse['astronomy']['astro']['sunrise'];
+        $sunset=$jsonResponse['astronomy']['astro']['sunset'];
+
+        dd($sunset,$sunrise);
+
+        return view("forecast",compact('city','sunrise','sunset' ));
+    }
     public function search(Request $request)
     {
 
@@ -31,6 +49,8 @@ class ForecastController extends Controller
 
 
 
-        return view("forecast",compact("city"));
+
+
+        return view("forecast",compact('city' ));
     }
 }
